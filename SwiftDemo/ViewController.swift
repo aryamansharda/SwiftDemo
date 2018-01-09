@@ -71,7 +71,7 @@ class ViewController: UITableViewController {
                     //Unpack the results and assign it to the tableData - the table view data source
                     self.tableData = dic.value(forKey : "results") as? [AnyObject]
                     DispatchQueue.main.async(execute: { () -> Void in
-                        //Performing UI changes on main thread
+                        //Performing UI changes on main 
                         self.tableView.reloadData()
                         self.refreshControl?.endRefreshing()
                     })
@@ -85,6 +85,7 @@ class ViewController: UITableViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        self.cache.removeAllObjects()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
