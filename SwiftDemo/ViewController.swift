@@ -59,15 +59,19 @@ class ViewController: UITableViewController {
     
     @objc func refreshTableView(query: String){
         
+        //Populate iTunes with search query
         let url:URL! = URL(string: "https://itunes.apple.com/search?entity=software&term=" + query)
+        
         task = session.downloadTask(with: url, completionHandler: { (location: URL?, response: URLResponse?, error: Error?) -> Void in
-            
             if location != nil{
                 let data:Data! = try? Data(contentsOf: location!)
                 do {
                     let dic = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as AnyObject
+                    
+                    //Unpack the results and assign it to the tableData - the table view data source
                     self.tableData = dic.value(forKey : "results") as? [AnyObject]
                     DispatchQueue.main.async(execute: { () -> Void in
+                        //Performing UI changes on main thread
                         self.tableView.reloadData()
                         self.refreshControl?.endRefreshing()
                     })
